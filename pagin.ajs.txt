@@ -1,0 +1,272 @@
+var inicio={
+    'registro':function(self){
+        event.preventDefault();
+        event.stopPropagation();
+        var datos=$(self).serializeArray();
+        datos.push({name:'accion', value:'ingresar'});
+       $.ajax({
+              method:"POST",
+              url:'pagina.php',
+              data:datos,
+              dataType: 'json',
+              success:function(data){     
+                  console.log(data);
+                  alert(data.resp)
+                if(data.resp==1){
+                    window.location="index.php";
+                    
+                 }else{
+                    alert("Su usuario o contraseña no coinciden");
+                }
+            },
+            error:function(a,b,c){
+                alert("No es correcto")
+                console.log(a,b,c)
+            }
+        });
+    }
+}
+    $('#sessionKiller').click(function(){
+            $('#timer').fadeIn(300);
+            $('#alertBoxes').html('<div class="box-success"></div>');
+            $('.box-success').hide(0).html('Espera un momento');
+            $('.box-success').slideDown(timeSlide);
+            setTimeout(function(){
+                window.location.href = "inicio.html";
+            },2500);
+        });
+
+
+    /*    var crud={
+   'guardar':function(self){
+        event.preventDefault();
+        event.stopPropagation();
+        var datos=$(self).serializeArray();
+        datos.push({name:'accion',value:'insertar'});
+        $.ajax({
+            method:"POST",
+            url:'index.php',
+            data: datos,
+            dataType:'json',
+           success:function(data){
+                    console.log(data);
+                    if(data.resp==1){
+                        alert("Su registro se genero exitosamente.");
+                    }    
+                 },
+            error:function(a,b,c){
+                alert("El correo electronico o documento ya existe");
+            }
+        });
+    },
+    'verlista':function(self){
+        $.ajax({
+            method:"POST", method:"POST", method:"POST",
+            url:'index.php',
+            data:{'accion':'listar'},
+            dataType: 'json',
+            success:function(data){
+                console.log(data);
+                 var lista="";
+                $.each(data.datos,function(index,value){
+                    lista+='<tr>\
+                            <td>'+value.clienomb+'</td>\
+                            <td>'+value.clietele+'</td>\
+                            <td>'+value.cliecorr+'</td>\
+                            </tr>';
+                        });
+                       $('#ver tbody').html(lista);
+                },
+            error:function(a,b,c){
+                console.log(a,b,c);
+            }
+        });
+    },
+     'editar':function(self){
+        event.preventDefault();
+        event.stopPropagation();
+        var datos=$(self).serializeArray();
+        datos.push({name:'accion',value:'edicion'});
+        $.ajax({
+            method: "POST",
+            url:'index.php',
+            data:datos,
+            dataType:'json',
+            success:function(data){
+                console.log(data);
+                if(data.resp==1){
+                    crud.verlista();
+                    alert("sus datos se actualizaron correctamente");
+                    $('#modaleditar').modal('hide');
+                 }else{
+                    alert("No fue posible actualizar");
+                    $('#modaleditar').modal('hide');
+                }
+            },
+                error:function(a,b,c){
+                    alert(a);
+          }     
+        });
+    },
+    'eliminar':function(self){ 
+        event.preventDefault();
+        event.stopPropagation();
+        var datos=$(self).serializeArray();
+        datos.push({name:'accion',value:'eliminar'});
+        $.ajax({
+            method:'POST',
+            url:'index.php',
+            data:datos,
+            dataType: 'json',
+            success:function(data){
+                    console.log(data);
+                    if(data.resp==1){
+                        alert("sus datos se eliminaron correctamente");
+                        $('#modaleliminar').modal('hide');
+                        crud.verlista();
+                    }
+                },
+                error:function(a,b,c){
+                    console.log(a,b,c);
+                }
+        });    
+        }
+    }
+      jQuery(document).ready(function($) {
+ 
+        $('#myCarousel').carousel({
+                interval: 5000
+        });
+ 
+        //Handles the carousel thumbnails
+        $('[id^=carousel-selector-]').click(function () {
+        var id_selector = $(this).attr("id");
+        try {
+            var id = /-(\d+)$/.exec(id_selector)[1];
+            console.log(id_selector, id);
+            jQuery('#myCarousel').carousel(parseInt(id));
+        } catch (e) {
+            console.log('Regex failed!', e);
+        }
+    });
+        // When the carousel slides, auto update the text
+        $('#myCarousel').on('slid.bs.carousel', function (e) {
+                 var id = $('.item.active').data('slide-number');
+                $('#carousel-text').html($('#slide-content-'+id).html());
+        });
+});
+        //   $('button').css('background-color', 'red');
+            $('input').click(function(){
+            clickCheckBox(this);
+        });
+        function clickCheckBox(checkbox){
+           if ($(checkbox).prop('checked')) {
+        }
+      }
+      
+        $("#colorNegro").click(function () {
+            $("#imagen1").attr('src', 'Imagenes/BanagrarioDepositos.png');
+        })
+         $("#colorBlanco").click(function () {
+            $("#imagen1").attr('src', 'Imagenes/BanagrarioProductos.png');
+        })
+        $("#colorAzul").click(function () {
+            $("#imagen1").attr('src', 'Imagenes/Banagrarioconsumidor.png');
+        })
+        $('#colorNegro').css('background-color','black');
+        $('#colorBlanco').css('background-color','white');
+        $('#colorAzul').css('background-color','blue');
+         $('body').css('background-color', '#222');
+    
+        
+    
+                var slideIndex = 1;
+                showDivs(slideIndex);
+
+                function plusDivs(n) {
+                showDivs(slideIndex += n);
+                }
+
+                function showDivs(n) {
+                var i;
+                var x =$(".mySlides");
+                if (n > x.length) {slideIndex = 1}    
+                if (n < 1) {slideIndex = x.length}
+                for (i = 0; i < x.length; i++) {
+                    x[i].style.display = "none";  
+                }
+                x[slideIndex-1].style.display = "block";  
+                }
+              $("input").focus(function(){
+                  $(this).css("background-color", "#cccccc");
+              });
+              $("input").blur(function(){
+                  $(this).css("background-color", "#ffffff");
+              });
+              $("textarea").focus(function(){
+                  $(this).css("background-color", "#cccccc");
+              });
+                $("textarea").blur(function(){
+                  $(this).css("background-color", "#ffffff");
+              });
+              $("#color").click(function(){
+                 $(".tabla1").toggle('3000');
+                });
+               
+                  $("#flip").click(function(){
+                $("#panel").toggle("slow");
+                    
+                });
+                
+var formulario={
+        'inserta':function(self){
+            event.preventDefault();
+            event.stopPropagation();
+            var datos=$(self).serializeArray();
+            datos.push({name:'accion', value:'crear'});
+            $.ajax({
+              method:"POST",
+              url:'index.php',
+              data:datos,
+              dataType: 'json',
+              success:function(data){                                   
+                  console.log(data);
+                  if(data.resp==1){
+                      alert("Se genero su pedido, con número #"+data.id+".");
+                  }
+              },
+              error:function(a,b,c){
+                  alert("No se pudo generar pedido");
+              }
+            });
+        },
+        'mostrar':function(self){
+            var documento=$('#cliedocu4').val();
+            $.ajax({
+                method: 'POST',
+                url:'index.php',
+                data:{'accion':'cargardatos','cliedocu':documento},
+                dataType:'json',
+                success:function(data){
+                    console.log(data);
+                    var listapedido="";
+                    $.each(data.datos,function(index,value){
+                      listapedido+='<tr>\
+                                    <td>'+value.pedinume+'</td>\
+                                    <td>'+value.peditipo+'</td>\
+                                    <td>'+value.pedinume+'</td>\
+                                    <td>'+value.pedicolo+'</td>\
+                                    <td>'+value.clieciud+'</td>\
+                                    <td>'+value.cliedire+'</td>\
+                                   </tr>';
+                  });
+                  $('#verPedido tbody').html(listapedido);
+                  $('#modalverpedido').modal();
+            },
+                error: function(a,b,c){
+                    alert("No esta registrado")
+                    console.log(a,b,c)
+            }
+            });
+},
+}*/
